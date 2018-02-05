@@ -1,0 +1,69 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://ds.sample.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://localhost/soap/service" targetNamespace="http://localhost/soap/service">
+    <wsdl:types>
+        <xs:schema xmlns="http://ds.sample.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ds.sample.com">
+            <xs:element name="employee">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:string"/>
+                        <xs:element name="firstname" type="xs:string"/>
+                        <xs:element name="lastname" type="xs:string"/>
+                        <xs:element name="email" type="xs:string"/>
+                        <xs:element ref="Address"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="employeeReq_Type">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="id" type="xs:string"/>
+                    <xs:element minOccurs="0" name="name" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="employeeRes_Type">
+                <xs:sequence>
+                    <xs:element minOccurs="0" ref="employee"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="employeeRequest" type="employeeReq_Type"/>
+            <xs:element name="employeeResponse" type="employeeRes_Type"/>
+            <xs:complexType name="postalAddress">
+                <xs:sequence>
+                    <xs:element name="Street" type="xs:string"/>
+                    <xs:element name="City" type="xs:string"/>
+                    <xs:element name="State" type="xs:string"/>
+                    <xs:element name="ZIP" type="xs:string"/>
+                    <xs:element name="Country" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="Address" type="postalAddress"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="employeeResponse">
+        <wsdl:part element="sch:employeeResponse" name="employeeResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="employeeRequest">
+        <wsdl:part element="sch:employeeRequest" name="employeeRequest"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="EmployeePort">
+        <wsdl:operation name="employee">
+            <wsdl:input message="tns:employeeRequest" name="employeeRequest"></wsdl:input>
+            <wsdl:output message="tns:employeeResponse" name="employeeResponse"></wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="EmployeePortSoap11" type="tns:EmployeePort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="employee">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="employeeRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="employeeResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="EmployeePortService">
+        <wsdl:port binding="tns:EmployeePortSoap11" name="EmployeePortSoap11">
+            <soap:address location="http://localhost:8080/soap/service"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

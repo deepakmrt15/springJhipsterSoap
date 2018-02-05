@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://ds.sample.com"
+           xmlns="http://ds.sample.com"
+           elementFormDefault="qualified">
+    <xs:include schemaLocation="../schema/address.xsd"></xs:include>
+    <xs:element name="employee">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:string"/>
+                <xs:element name="firstname" type="xs:string"/>
+                <xs:element name="lastname" type="xs:string"/>
+                <xs:element name="email" type="xs:string"/>
+                <xs:element  ref="Address"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="employeeReq_Type">
+        <xs:sequence>
+            <xs:element minOccurs="0"  name="id" type="xs:string"/>
+            <xs:element minOccurs="0"  name="name" type="xs:string"/>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="employeeRes_Type">
+        <xs:sequence>
+                <xs:element minOccurs="0" ref="employee"/>
+
+
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="employeeRequest" type="employeeReq_Type"/>
+    <xs:element name="employeeResponse" type="employeeRes_Type"/>
+
+
+
+</xs:schema>
